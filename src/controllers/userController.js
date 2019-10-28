@@ -41,10 +41,8 @@ module.exports = {
     async update(req, res){
         try {
             const {name, email, password} = req.body;
-            if (! await User.findOneAndUpdate({name, email, password})){
-                return res.status(400).send({error:'user does not exist'});
-            }
-            return res.json({message: "the data will be updated"});
+            const user = await User.findOneAndUpdate({name, email,password});
+            return res.json(user);
         } catch (error) {
             return res.status(400).send({error: "error updating data"});
         }
