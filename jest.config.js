@@ -5,6 +5,7 @@ const config = {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   transform: { '\\.(js|jsx|ts|tsx)$': '@sucrase/jest-plugin' },
+  preset: '@shelf/jest-mongodb',
 };
 
 module.exports = config;
