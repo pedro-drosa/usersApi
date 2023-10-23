@@ -120,4 +120,25 @@ describe('userController', () => {
       })
     );
   });
+
+  it('should be able to update information of a previously registered user', async () => {
+    await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe@doe.com',
+      password: 'examplepassword',
+    });
+
+    const response = await request(app).put('/users').send({
+      name: 'John Doe',
+      email: 'john_doe@example.com',
+      password: 'examplepassword',
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        message: 'the information was updated successfully',
+      })
+    );
+  });
 });

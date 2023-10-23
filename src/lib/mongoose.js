@@ -4,6 +4,7 @@ mongoose
   .connect(`${process.env.MONGO_DB_URI}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log('mongodb database is connected');
