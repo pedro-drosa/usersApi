@@ -1,5 +1,4 @@
-require('dotenv/config');
-const { app } = require('./app');
+import app from './app';
 
 const { APP_BASE_URL } = process.env;
 const APP_PORT = process.env.PORT || 3000;
