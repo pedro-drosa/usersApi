@@ -141,4 +141,36 @@ describe('userController', () => {
       })
     );
   });
+
+  it('should be able to delete information of a previously registered user', async () => {
+    await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe@doe.com',
+      password: 'examplepassword',
+    });
+
+    const response = await request(app).delete('/users').send({
+      email: 'johndoe@doe.com',
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        message: 'data has been deleted',
+      })
+    );
+  });
+
+  it('should not be able to delete information from an unregistered user', async () => {
+    const response = await request(app).delete('/users').send({
+      email: 'johndoe@doe.com',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        message: 'user does not exist',
+      })
+    );
+  });
 });
