@@ -85,4 +85,39 @@ describe('userController', () => {
       ],
     });
   });
+
+  it('should be able to return data for a user based on registered email', async () => {
+    await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe@doe.com',
+      password: 'examplepassword',
+    });
+
+    await request(app).post('/users').send({
+      name: 'Jane Doe',
+      email: 'jane@doe.com',
+      password: 'examplepassword',
+    });
+
+    const response = await request(app).get('/users/johndoe@doe.com');
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      user: expect.objectContaining({
+        name: 'John Doe',
+        email: 'johndoe@doe.com',
+      }),
+    });
+  });
+
+  it('should be able to return an error message when no users are found', async () => {
+    const response = await request(app).get('/users/does@notexists.com');
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        message: 'no users were found',
+      })
+    );
+  });
 });

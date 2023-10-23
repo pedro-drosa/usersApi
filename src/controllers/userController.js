@@ -28,14 +28,14 @@ module.exports = {
   // returns a specific user
   async show(req, res) {
     try {
-      const { email } = req.query;
+      const { email } = req.params;
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).send({ message: 'no item matches search' });
+        return res.status(400).send({ message: 'no users were found' });
       }
-      return res.json(user);
+      return res.json({ user });
     } catch (error) {
-      return res.status(400).send({ message: 'nothing to display' });
+      return res.status(400).send({ error: 'nothing to display' });
     }
   },
   // change an existing user
