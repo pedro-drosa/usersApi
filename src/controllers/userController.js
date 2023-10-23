@@ -20,7 +20,7 @@ module.exports = {
   async index(req, res) {
     try {
       const users = await User.find();
-      return res.json(users);
+      return res.json({ users });
     } catch (error) {
       return res.status(400).send({ message: 'nothing to display' });
     }

@@ -54,4 +54,35 @@ describe('userController', () => {
       })
     );
   });
+
+  it('should be able list all registered users', async () => {
+    await request(app).post('/users').send({
+      name: 'John Doe',
+      email: 'johndoe@doe.com',
+      password: 'examplepassword',
+    });
+
+    await request(app).post('/users').send({
+      name: 'Jane Doe',
+      email: 'jane@doe.com',
+      password: 'examplepassword',
+    });
+
+    const response = await request(app).get('/users');
+
+    expect(response.status).toBe(200);
+    expect(response.body.users).toHaveLength(2);
+    expect(response.body).toEqual({
+      users: [
+        expect.objectContaining({
+          name: 'John Doe',
+          email: 'johndoe@doe.com',
+        }),
+        expect.objectContaining({
+          name: 'Jane Doe',
+          email: 'jane@doe.com',
+        }),
+      ],
+    });
+  });
 });
